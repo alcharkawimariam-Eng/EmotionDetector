@@ -233,7 +233,23 @@ install:
 - Open a PR with description + screenshots (for UI changes).  
 
 ---
+<img width="1916" height="868" alt="Image20250927233044" src="https://github.com/user-attachments/assets/55b19874-c6c9-4f17-a9ad-f56751917fe0" />
 
+Conversation – Dark mode (summary view)
+Shows a single chat titled “Lately I feel heavy and tired.” The user’s message appears on the right; the assistant replies with a short breathing exercise (4-7-8), three micro-steps, and a quick posture/water tip. Mood is auto-detected as sadness (96.5%), and three YouTube song links are suggested. Message composer with “Send” is visible.
+
+<img width="1910" height="850" alt="Image20250927233048" src="https://github.com/user-attachments/assets/1b7069fb-4264-4102-beb5-077eaf81295f" />
+
+Conversation – Dark mode (emotion breakdown)
+Same chat and assistant suggestions as #1, but the emotion confidence bars are expanded underneath: sadness (dominant) followed by neutral, disgust, surprise, fear, and anger with small percentages. Emphasizes the classifier’s detailed probabilities.
+<img width="1920" height="881" alt="Image20250927233052" src="https://github.com/user-attachments/assets/29329339-535b-4e48-b4bb-fb4e53da0519" />
+
+Conversation – Light mode (summary view)
+Light theme version of #1. The user’s message card on the right, assistant block with breathing/micro-steps, sadness (96.5%) badge, and three recommended songs. Theme toggle is set to Light.
+<img width="1920" height="899" alt="Image20250927233036" src="https://github.com/user-attachments/assets/636e3e86-cfd8-4c0d-af1e-3b9ed96e5a17" />
+
+Chats list + Conversation pane (Light mode)
+Left sidebar lists recent chats (e.g., “Lately I feel heavy and tired,” “A teammate dismisses my i…”) with Close / Rename / Delete controls and timestamps. Right pane shows the selected conversation with the assistant’s guidance, mood detection banner, and the three music links. Designed to highlight multi-chat navigation and quick management actions.
 
 
 ---
