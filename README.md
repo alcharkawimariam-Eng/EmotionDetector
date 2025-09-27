@@ -224,6 +224,8 @@ install:
   }
 }
 ```
+<img width="907" height="852" alt="docker" src="https://github.com/user-attachments/assets/96ea3346-4499-4bb6-bdc0-f7b3d71ba107" />
+**Dockerized UI (Public Image):** Our Angular UI is fully containerized and published on Docker Hub as **`mariamcharkawi/emotional-ui`** (see tags like `1.0.0`, `1.0.1`, `latest`; optional screenshot at `docs/images/dockerhub-tags.png`). We build a production bundle with Angular and serve it via Nginx using a multi-stage Dockerfile, then push versioned images to Docker Hub. **Run from the public image:** `docker pull mariamcharkawi/emotional-ui:1.0.1` ; `docker run -d --name ui -p 5173:80 mariamcharkawi/emotional-ui:1.0.1` → open `http://localhost:5173`. **Update after code changes:** rebuild locally, tag a new version (e.g., `1.0.2`) and `latest`, `docker push` both, then redeploy or point your platform (e.g., Render) to the new tag. If the UI calls a backend, remember the API base URL is baked at build time—rebuild with the correct URL and ensure backend CORS allows the public UI domain.
 
 ---
 
