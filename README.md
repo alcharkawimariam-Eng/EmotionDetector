@@ -1,11 +1,4 @@
-Yesterday
 
-You Yesterday, 7:04 PM
-
-You Yesterday, 11:09 PM
-Today
-
-Joumana Sakr 12:02 AM
 # Emotional Detector — Web App (Frontend + Backend)
 
 A small full-stack app that analyzes user text (and/or other inputs) to detect the underlying emotion, then returns tailored suggestions (e.g., coping tips, music links).
@@ -241,18 +234,13 @@ install:
 
 ---
 
-## 📄 License
-MIT (or your preferred license).
+
 
 ---
 
 ## 👥 Maintainers
-- **Team**: M&JCo.  
-- **Contact**: (add your emails/usernames here)  
+- **Team**: Joumana and Mariam  
 
 ---
 
-## 📝 Notes for Grader/Reviewer
-- API docs available at `/docs` once backend is running.  
-- App works offline with local model files (if provided).  
-- If external APIs are used, document API keys in `.env`.
+
