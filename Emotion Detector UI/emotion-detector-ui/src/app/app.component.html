@@ -1,0 +1,167 @@
+<div class="container-fluid chat-layout">
+  <div class="row h-100 g-0">
+
+    <!-- ===== Sidebar ===== -->
+    <div class="col-12 col-md-3 col-lg-3 border-end chat-sidebar"
+         [class.d-none]="!sidebarOpen && isDesktop">
+      <div class="p-3">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="mb-0">Chats</h5>
+          <div class="btn-group">
+            <button class="btn btn-sm btn-outline-primary" (click)="newChat()" title="New chat">
+              <i class="bi bi-plus-lg"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" (click)="toggleSidebar()" title="Hide sidebar">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="vstack gap-2">
+          <div class="card" *ngFor="let c of conversations; trackBy: trackByConv"
+               [class.border-primary]="activeConv?.id===c.id"
+               (click)="select(c)" style="cursor:pointer">
+            <div class="card-body py-2">
+              <div class="d-flex justify-content-between">
+                <strong class="me-2 text-truncate" style="max-width: 14rem">{{ c.title }}</strong>
+                <small class="text-secondary">{{ c.messages.length }} msgs</small>
+              </div>
+              <div class="text-secondary small">{{ c.updatedAt | date:'short' }}</div>
+
+              <div class="mt-2 d-flex gap-1">
+                <button class="btn btn-sm btn-outline-secondary" (click)="collapse(c, $event)">
+                  {{ c.collapsed ? 'Open' : 'Close' }}
+                </button>
+                <button class="btn btn-sm btn-outline-secondary" (click)="rename(c, $event)">Rename</button>
+                <button class="btn btn-sm btn-outline-danger" (click)="delete(c, $event)">Delete</button>
+              </div>
+
+              <div class="small text-secondary mt-2" *ngIf="!c.collapsed">
+                {{ c.messages[0]?.text || 'No description yet.' }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===== Main ===== -->
+    <div class="col chat-main">
+
+      <!-- Navbar / controls -->
+      <nav class="navbar navbar-expand bg-body-tertiary navbar-blur sticky-top">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-secondary" (click)="toggleSidebar()"
+                    [title]="sidebarOpen ? 'Hide chats' : 'Show chats'">
+              <i class="bi" [ngClass]="sidebarOpen ? 'bi-layout-sidebar-inset-reverse' : 'bi-layout-sidebar'"></i>
+            </button>
+            <span class="navbar-brand mb-0 h5">{{ activeConv?.title || 'New chat' }}</span>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <div class="form-check form-switch me-2">
+              <input class="form-check-input" type="checkbox" id="themeSwitch"
+                     (change)="toggleTheme()" [checked]="mode==='dark'">
+              <label class="form-check-label" for="themeSwitch">
+                {{ mode==='dark' ? 'Dark' : 'Light' }}
+              </label>
+            </div>
+
+            <div class="input-group input-group-sm" style="width: 180px;">
+              <span class="input-group-text"><i class="bi bi-palette"></i></span>
+              <input type="color" class="form-control form-control-color"
+                     [value]="accent" (input)="onAccentPick($event)" title="Accent color">
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Chat window -->
+      <div class="chat-window">
+        <div *ngIf="activeConv">
+          <div *ngFor="let m of activeConv.messages; trackBy: trackByMsg"
+               class="msg-row" [class.user]="m.role==='user'" [class.assistant]="m.role==='assistant'">
+            <div class="msg-bubble">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="badge bg-secondary text-capitalize">{{ m.role }}</span>
+                <small class="text-secondary">{{ m.time | date:'shortTime' }}</small>
+              </div>
+
+              <!-- text (supports newlines) -->
+              <div *ngIf="m.text" class="mb-1" style="white-space:pre-wrap">{{ m.text }}</div>
+
+              <!-- music links (clickable) -->
+              <div *ngIf="links(m).length" class="mt-2">
+                <div class="small text-secondary mb-1">Songs to try:</div>
+                <div class="list-group">
+                  <a *ngFor="let u of links(m) | slice:0:3; let i = index"
+                     class="list-group-item list-group-item-action"
+                     [href]="u" target="_blank" rel="noopener">
+                    {{ i + 1 }}. {{ u }}
+                  </a>
+                </div>
+              </div>
+
+              <!-- probs -->
+              <div *ngIf="m.meta?.probs" class="mt-2">
+                <div *ngFor="let p of probEntries(m.meta?.probs)" class="mb-2">
+                  <div class="d-flex justify-content-between small">
+                    <strong class="text-nowrap me-2">{{ p.key }}</strong>
+                    <span class="text-secondary">{{ (p.value*100) | number:'1.0-1' }}%</span>
+                  </div>
+                  <div class="prog"><div [style.width.%]="p.value*100"></div></div>
+                </div>
+              </div>
+
+              <!-- attachments -->
+              <div *ngIf="m.attachments?.length" class="mt-2">
+                <div *ngFor="let a of m.attachments" class="alert alert-secondary py-2 mb-2">
+                  <div><strong>{{ a.name }}</strong>
+                    <small class="text-secondary">({{ a.type }}, {{ a.size | number }} bytes)</small>
+                  </div>
+                  <div *ngIf="a.result" class="mt-1">
+                    <pre class="mb-0 small">{{ a.result | json }}</pre>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Composer -->
+      <div class="composer p-3 bg-body">
+        <form (ngSubmit)="sendText()" [formGroup]="form" class="container-fluid">
+          <div class="row g-2 align-items-center">
+            <div class="col-12 col-lg">
+              <textarea class="form-control"
+                        rows="2"
+                        formControlName="text"
+                        placeholder="Type your message… (e.g., I feel overwhelmed about tomorrow)"></textarea>
+            </div>
+            <!-- <div class="col-auto">
+              <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".pdf,.csv,.xlsx,.xls">
+            </div> -->
+            <div class="col-auto d-flex align-items-center gap-2">
+              <div *ngIf="loading" class="spinner-border text-primary spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <button type="submit" class="btn btn-primary" [disabled]="loading || form.invalid">
+                <i class="bi bi-send"></i> Send
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="form.invalid && form.controls.text.touched" class="text-danger small mt-1">
+            <div *ngIf="form.controls.text.errors?.['maxlength']">Max 1000 characters.</div>
+          </div>
+          <div *ngIf="error" class="alert alert-danger mt-2 py-2">{{ error }}</div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

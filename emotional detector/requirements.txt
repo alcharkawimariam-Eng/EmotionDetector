@@ -1,0 +1,29 @@
+# --- API layer
+fastapi==0.115.2
+uvicorn[standard]==0.30.6
+pydantic==2.9.2
+python-multipart==0.0.9      # for file uploads
+aiofiles==24.1.0             # if you save uploads
+orjson==3.10.7               # faster JSON (FastAPI uses it if present)
+
+# --- ML / NLP (emotion detection with Hugging Face)
+transformers==4.44.2
+tokenizers==0.19.1
+safetensors==0.4.4
+accelerate==0.34.2
+sentencepiece==0.2.0         # some models need it
+
+# Pick ONE torch build that matches your machine (CPU or CUDA):
+# CPU-only (works everywhere):
+torch==2.4.1
+# If you want CUDA, install the matching wheel instead of the line above, e.g.:
+# pip install torch==2.4.1+cu121 --index-url https://download.pytorch.org/whl/cu121
+
+# --- Data / utilities
+numpy==1.26.4
+scikit-learn==1.5.2          # if you persist vectorizers or do extra features
+pandas==2.2.2                # optional but handy
+tqdm==4.66.5                 # progress bars in warm-up
+python-dotenv==1.0.1         # read .env for secrets/config
+loguru==0.7.2                # nicer logging
+tenacity==8.5.0              # retry wrappers for any external calls

@@ -1,0 +1,24 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+pytest_cache/
+
+# Node/Angular
+Emotion Detector UI/emotion-detector-ui/node_modules/
+Emotion Detector UI/emotion-detector-ui/dist/
+Emotion Detector UI/emotion-detector-ui/.angular/
+*.log
+
+# IDE/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Docker
+*.tar

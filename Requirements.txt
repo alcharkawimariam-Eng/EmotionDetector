@@ -1,0 +1,24 @@
+# --- Web API ---
+fastapi>=0.111,<1.0
+uvicorn[standard]>=0.30
+
+# --- Validation & env ---
+pydantic>=2.7,<3.0
+python-dotenv>=1.0
+
+# --- NLP / Transformers stack ---
+transformers>=4.44
+tokenizers>=0.15
+safetensors>=0.4
+sentencepiece>=0.1.99   # required for FLAN-T5 tokenizer
+
+# --- PyTorch (CPU by default; install CUDA build separately if you have GPU) ---
+torch>=2.2
+
+# --- Uploads / form-data (FastAPI's UploadFile) ---
+python-multipart>=0.0.9
+
+# --- Utilities commonly needed by HF/PyTorch ---
+numpy>=1.24
+pandas>=2.2
+requests>=2.32

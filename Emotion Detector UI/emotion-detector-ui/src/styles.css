@@ -1,0 +1,141 @@
+:root {
+    --bs-primary: #6f7cff;
+    /* accent; TS updates this */
+    --bubble-user: var(--bs-primary);
+    --bubble-assistant: #e9ecef;
+}
+
+html[data-bs-theme="dark"] {
+    --bubble-user: #3643ff;
+    --bubble-assistant: #1f2330;
+}
+
+.chat-layout {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.chat-sidebar {
+    height: 100vh;
+    overflow: auto;
+}
+
+.chat-main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-window {
+    flex: 1 1 auto;
+    overflow: auto;
+    padding: 1rem;
+    background: var(--bs-body-bg);
+}
+
+.composer {
+    border-top: 1px solid var(--bs-border-color);
+}
+
+/* Bubbles */
+.msg-row {
+    display: flex;
+    margin-bottom: .75rem;
+}
+
+.msg-row.user {
+    justify-content: flex-end;
+}
+
+.msg-bubble {
+    max-width: 70%;
+    border-radius: 1rem;
+    padding: .75rem .9rem;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .08);
+}
+
+.msg-row.user .msg-bubble {
+    background: var(--bubble-user);
+    color: #fff;
+}
+
+.msg-row.assistant .msg-bubble {
+    background: var(--bubble-assistant);
+    color: var(--bs-body-color);
+}
+
+/* Probability bars */
+.prog {
+    height: .5rem;
+    background: var(--bs-secondary-bg);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.prog>div {
+    height: 100%;
+    background: var(--bs-primary);
+    width: 0%;
+    transition: width .4s ease;
+}
+
+/* Navbar effect */
+.navbar-blur {
+    backdrop-filter: saturate(1.2) blur(8px);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .12);
+}
+
+/* Pretty primary button that tracks --bs-primary in both modes */
+/* .btn-primary {
+    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
+    --bs-btn-hover-bg: color-mix(in srgb, var(--bs-primary), #000 12%);
+    --bs-btn-hover-border-color: color-mix(in srgb, var(--bs-primary), #000 16%);
+    --bs-btn-active-bg: color-mix(in srgb, var(--bs-primary), #000 20%);
+    --bs-btn-active-border-color: color-mix(in srgb, var(--bs-primary), #000 24%);
+} */
+
+/* Smooth sidebar on desktop */
+@media (min-width: 768px) {
+    .chat-sidebar {
+        transition: width .25s ease, margin .25s ease, opacity .2s ease;
+    }
+}
+
+
+
+/* Light mode textbox */
+html[data-bs-theme="light"] .composer .form-control {
+    background-color: var(--input-bg-light) !important;
+    border-color: var(--input-border-light) !important;
+    color: var(--bs-body-color) !important;
+    box-shadow: inset 0 1px 0 #ffffff, 0 2px 8px rgba(0, 0, 0, .04);
+}
+
+/* Dark mode textbox */
+html[data-bs-theme="dark"] .composer .form-control {
+    background-color: var(--input-bg-dark) !important;
+    border-color: var(--input-border-dark) !important;
+    color: #e6ebff !important;
+}
+
+/* Placeholder colors */
+html[data-bs-theme="light"] .composer .form-control::placeholder {
+    color: var(--input-ph-light);
+}
+
+html[data-bs-theme="dark"] .composer .form-control::placeholder {
+    color: var(--input-ph-dark);
+}
+
+/* Focus state (both themes) */
+.composer .form-control:focus {
+    box-shadow: 0 0 0 .25rem rgba(var(--bs-primary-rgb), .15) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+/* Optional: rounded + padding for a “pill” feel */
+.composer .form-control {
+    border-radius: 1rem;
+    padding: .9rem 1rem;
+}

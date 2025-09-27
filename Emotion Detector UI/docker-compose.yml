@@ -1,0 +1,18 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: emotional-backend
+    ports:
+      - "8000:8000"
+
+  ui:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: "http://backend:8000"  # service name inside compose network
+    container_name: emotional-ui
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
